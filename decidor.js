@@ -1,8 +1,7 @@
-function addRowToTable()
- {
+function addRowToTable() {
     var tbl = document.getElementById('optTable');
     var lastRow = tbl.rows.length;
-    // if there's no header row in the table, then iteration = lastRow + 1
+
     var iteration = lastRow;
     var row = tbl.insertRow(lastRow);
 
@@ -22,43 +21,52 @@ function addRowToTable()
     cellRight.appendChild(el);
 }
 
-function removeRowFromTable()
- {
+function removeRowFromTable() {
     var tbl = document.getElementById('optTable');
     var lastRow = tbl.rows.length;
     if (lastRow > 2) tbl.deleteRow(lastRow - 1);
 }
 
-function getResult(frm)
- {
-    // get random row
+function getResult() {
     var tbl = document.getElementById('optTable');
     var lastRow = tbl.rows.length - 1;
-	if (lastRow > 1) {
-    	var randint = parseInt(Math.random() * lastRow)
-    	var choice = document.getElementById('txtRow' + randint).value
-	} else {
-		choice = document.getElementById('txtRow1').value
-	}
+    var choice = ""
+
+	// get random row if there are more than one
+    if (lastRow > 1) {
+        var randint = Math.floor(Math.random()*(lastRow)) + 1
+        choice = document.getElementById('txtRow' + randint).value
+    } else {
+        choice = document.getElementById('txtRow1').value
+    }
 
     var out = document.getElementById('result');
-	if(out.hasChildNodes()){
-		result.removeChild(result.firstChild)
-	}
-    result.appendChild(document.createTextNode("The Decision: " + choice))
+    out.appendChild(document.createTextNode("Your Decision: " + choice))
 }
 
-function validateRow(frm)
- {
+function validateRow() {
     var tbl = document.getElementById('optTable');
     var lastRow = tbl.rows.length - 1;
     var i;
+
+	// clean up results and warnings 
+    var warn = document.getElementById('warning');
+	var out = document.getElementById('result');
+    if (warn.hasChildNodes()) {
+        warn.removeChild(warn.firstChild)
+    }
+    if (out.hasChildNodes()) {
+        out.removeChild(out.firstChild)
+    }
+
+	// check if there are any empty cells
     for (i = 1; i <= lastRow; i++) {
         var aRow = document.getElementById('txtRow' + i);
         if (aRow.value.length <= 0) {
-            alert('Row ' + i + ' is empty');
+            warn.appendChild(document.createTextNode("Row " + i + " is empty!"))
             return;
         }
     }
-    getResult(frm);
+
+    getResult();
 }

@@ -41,3 +41,12 @@ font-size: 2.0em;
 margin-left: auto;
 margin-right:auto;
 }
+
+#warning {
+font-size: 18px;
+color: #A00000;
+}
+
+#result {
+font-size: 18px;
+}
